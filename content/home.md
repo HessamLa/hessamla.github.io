@@ -4,6 +4,7 @@ title: Home
 
 # Hessam Alizadeh
 
+(Hamidreza Lotfalizadeh, Ph.D.)\
 **ML Researcher & Engineer**
 
 I build scalable graph learning systems and develop novel algorithms for representation learning.
