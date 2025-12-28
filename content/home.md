@@ -13,4 +13,8 @@ Recently completed my **PhD in Computer Engineering at Purdue University**, spec
 
 I'm passionate about bridging theoretical research with production-grade implementations, algorithmic improvements, and scalable system design.
 
-[View Projects](#projects) ·.·.· [Read About Me](#about) ·.·.· <a href="/assets/h-lotfalizadeh-postdoc-resume2.pdf" target="_blank">View CV</a>
+
+`·.·` [`Read About Me`](#about) `·.·.·.·.·.·.·` \
+`·.·.·` [`View Projects`](#projects) `·.·.·.·.·.·` \
+`·.·.·.·` <a href="/assets/h-lotfalizadeh-postdoc-resume2.pdf" target="_blank">`Research Resume`</a> `·.·.·.·` \
+`·.·.·.·.·` <a href="/assets/h-lotfalizadeh-10genai.pdf" target="_blank">`Industry CV`</a> `·.·.·.·.·` 
