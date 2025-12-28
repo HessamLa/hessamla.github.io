@@ -2,8 +2,13 @@
   "name": "Hessam Lotfalizadeh",
   "title": "ML Researcher & Engineer",
   "tagline": "Graph Neural Networks · Distributed Systems · Scalable ML",
-  "email": "your.email@example.com",
   "location": "Bay Area, CA",
+  "contact": {
+    "email": "hamidla.ap+githubio@gmail.com",
+    "github": "https://github.com/hessamla",
+    "linkedin": "https://linkedin.com/in/hessamla",
+    "scholar": "https://scholar.google.com/citations?user=yPwMRpwAAAAJ&hl=en"
+  },
   "nav": [
     { "label": "Home", "href": "home" },
     { "label": "About", "href": "about" },
@@ -12,10 +17,10 @@
     { "label": "Blog", "href": "blog" }
   ],
   "social": [
-    { "platform": "github", "url": "https://github.com/hessamla", "icon": "github" },
-    { "platform": "linkedin", "url": "https://linkedin.com/in/YOUR_LINKEDIN", "icon": "linkedin" },
-    { "platform": "scholar", "url": "https://scholar.google.com/citations?user=YOUR_ID", "icon": "graduation-cap" },
-    { "platform": "email", "url": "mailto:your.email@example.com", "icon": "envelope" }
+    { "platform": "github", "url": "{contact.github}", "icon": "github", "label": "GitHub" },
+    { "platform": "linkedin", "url": "{contact.linkedin}", "icon": "linkedin", "label": "LinkedIn" },
+    { "platform": "scholar", "url": "{contact.scholar}", "icon": "graduation-cap", "label": "Google Scholar" },
+    { "platform": "email", "url": "mailto:{contact.email}", "icon": "envelope", "label": "Email" }
   ],
   "meta": {
     "description": "Hessam Lotfalizadeh - ML Researcher specializing in Graph Neural Networks, distributed systems, and scalable algorithms.",

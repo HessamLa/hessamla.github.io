@@ -390,7 +390,8 @@ async function renderPublications() {
 
   // Add note if it exists
   if (data.note) {
-    html += `<p class="mt-lg text-muted">${marked.parseInline(data.note)}</p>`;
+    const resolvedNote = resolveTemplateVars(data.note);
+    html += `<p class="mt-lg text-muted">${marked.parseInline(resolvedNote)}</p>`;
   }
 
   render(html, 'page-publications');
@@ -502,6 +503,19 @@ function updateActiveNav(currentPage) {
 }
 
 /**
+ * Resolve template variables in strings
+ * @param {string} str - String with potential template variables like {contact.email}
+ * @returns {string} - Resolved string
+ */
+function resolveTemplateVars(str) {
+  if (!str || typeof str !== 'string') return str;
+
+  return str.replace(/\{contact\.(\w+)\}/g, (match, key) => {
+    return siteData.contact && siteData.contact[key] ? siteData.contact[key] : match;
+  });
+}
+
+/**
  * Populate footer with social links
  */
 function populateFooter() {
@@ -519,7 +533,7 @@ function populateFooter() {
 
   for (const item of siteData.social) {
     const link = document.createElement('a');
-    link.href = item.url;
+    link.href = resolveTemplateVars(item.url);
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
     link.setAttribute('aria-label', item.label);
