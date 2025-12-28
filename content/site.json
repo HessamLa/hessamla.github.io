@@ -1,7 +1,7 @@
 {
-  "name": "Hessam Lotfalizadeh",
+  "name": "Hessam Alizadeh",
   "title": "ML Researcher & Engineer",
-  "tagline": "Graph Neural Networks · Distributed Systems · Scalable ML",
+  "tagline": "Graph ML · Distributed Systems · Scalable ML",
   "location": "Bay Area, CA",
   "contact": {
     "email": "hamidla.ap+githubio@gmail.com",
@@ -23,7 +23,7 @@
     { "platform": "email", "url": "mailto:{contact.email}", "icon": "envelope", "label": "Email" }
   ],
   "meta": {
-    "description": "Hessam Lotfalizadeh - ML Researcher specializing in Graph Neural Networks, distributed systems, and scalable algorithms.",
+    "description": "Hessam Alizadeh - ML Researcher specializing in Graph Neural Networks, distributed systems, and scalable algorithms.",
     "keywords": ["Machine Learning", "Graph Neural Networks", "GNN", "Distributed Systems", "PhD", "Purdue"]
   }
 }
