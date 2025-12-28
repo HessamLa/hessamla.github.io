@@ -1,0 +1,32 @@
+{
+  "title": "Publications",
+  "intro": "Selected peer-reviewed publications and preprints.",
+  "items": [
+    {
+      "title": "Kinematic-Based Force-Directed Graph Embedding",
+      "authors": ["Hamidreza Lotfalizadeh", "Co-Author Name"],
+      "venue": "Conference/Journal Name",
+      "year": 2024,
+      "type": "conference",
+      "abstract": "A novel approach to graph embedding using physics-based force-directed methods with O(n log n) complexity.",
+      "links": {
+        "pdf": "#",
+        "code": "https://github.com/hessamla/",
+        "slides": "#"
+      }
+    },
+    {
+      "title": "Your Earlier Paper Title",
+      "authors": ["Hamidreza Lotfalizadeh", "Other Authors"],
+      "venue": "Earlier Conference/Journal",
+      "year": 2023,
+      "type": "journal",
+      "abstract": "Brief description of this work.",
+      "links": {
+        "pdf": "#",
+        "code": "#"
+      }
+    }
+  ],
+  "note": "For a complete list, see my [Google Scholar](https://scholar.google.com/citations?user=YOUR_ID) profile."
+}

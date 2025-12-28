@@ -1,0 +1,14 @@
+{
+  "title": "Blog",
+  "intro": "Thoughts on graph neural networks, ML systems, and research.",
+  "items": [
+    {
+      "slug": "hello-world",
+      "title": "Hello World",
+      "date": "2024-12-27",
+      "summary": "First post—what to expect from this blog.",
+      "tags": ["meta"],
+      "draft": true
+    }
+  ]
+}

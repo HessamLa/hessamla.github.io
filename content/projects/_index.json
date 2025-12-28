@@ -1,0 +1,27 @@
+{
+  "title": "Projects",
+  "intro": "A selection of my research and engineering work.",
+  "items": [
+    {
+      "slug": "force-directed-embeddings",
+      "title": "Kinematic Force-Directed Graph Embeddings",
+      "summary": "Novel graph embedding paradigm with O(n²) → O(n log n) complexity reduction.",
+      "tags": ["GNN", "Embeddings", "PhD Research"],
+      "featured": true
+    },
+    {
+      "slug": "knowledge-graph-lilly",
+      "title": "Enterprise Knowledge Graph System",
+      "summary": "Production KG infrastructure handling 4M+ nodes with millisecond queries.",
+      "tags": ["Knowledge Graphs", "Eli Lilly", "Industry"],
+      "featured": true
+    },
+    {
+      "slug": "construction-knowledge-graph",
+      "title": "LLM-Powered Construction Knowledge Graphs",
+      "summary": "Automated conflict detection in construction documents using LLMs and KGs.",
+      "tags": ["LLM", "Knowledge Graphs", "Inertia Systems"],
+      "featured": true
+    }
+  ]
+}

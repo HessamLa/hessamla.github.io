@@ -1,0 +1,24 @@
+{
+  "name": "Hessam Lotfalizadeh",
+  "title": "ML Researcher & Engineer",
+  "tagline": "Graph Neural Networks · Distributed Systems · Scalable ML",
+  "email": "your.email@example.com",
+  "location": "Bay Area, CA",
+  "nav": [
+    { "label": "Home", "href": "#home" },
+    { "label": "About", "href": "#about" },
+    { "label": "Projects", "href": "#projects" },
+    { "label": "Publications", "href": "#publications" },
+    { "label": "Blog", "href": "#blog" }
+  ],
+  "social": [
+    { "platform": "github", "url": "https://github.com/hessamla", "icon": "github" },
+    { "platform": "linkedin", "url": "https://linkedin.com/in/YOUR_LINKEDIN", "icon": "linkedin" },
+    { "platform": "scholar", "url": "https://scholar.google.com/citations?user=YOUR_ID", "icon": "graduation-cap" },
+    { "platform": "email", "url": "mailto:your.email@example.com", "icon": "envelope" }
+  ],
+  "meta": {
+    "description": "Hessam Lotfalizadeh - ML Researcher specializing in Graph Neural Networks, distributed systems, and scalable algorithms.",
+    "keywords": ["Machine Learning", "Graph Neural Networks", "GNN", "Distributed Systems", "PhD", "Purdue"]
+  }
+}

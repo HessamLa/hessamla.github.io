@@ -1,0 +1,368 @@
+/* =============================================
+   PORTFOLIO SITE STYLES
+   Structure:
+   1. CSS Variables / Theme
+   2. Reset & Base
+   3. Typography
+   4. Layout
+   5. Header & Navigation
+   6. Main Content
+   7. Page-specific: Home, About, Projects, Publications, Blog
+   8. Components: Cards, Tags, Buttons, Links
+   9. Footer
+   10. Utilities
+   11. Responsive / Media Queries
+   ============================================= */
+
+/* -----------------------------------------
+   1. CSS VARIABLES / THEME
+   ----------------------------------------- */
+:root {
+  /* Colors */
+  --color-bg: #ffffff;
+  --color-bg-alt: #f8f9fa;
+  --color-text: #1a1a1a;
+  --color-text-muted: #6c757d;
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-border: #e5e7eb;
+  --color-code-bg: #f1f5f9;
+  
+  /* Typography */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'SF Mono', Consolas, 'Liberation Mono', monospace;
+  --font-size-base: 16px;
+  --line-height: 1.6;
+  
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 4rem;
+  
+  /* Layout */
+  --max-width: 800px;
+  --header-height: 60px;
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+}
+
+/* -----------------------------------------
+   2. RESET & BASE
+   ----------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: var(--font-size-base);
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  line-height: var(--line-height);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* -----------------------------------------
+   3. TYPOGRAPHY
+   ----------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+  /* Heading styles */
+}
+
+h1 { }
+h2 { }
+h3 { }
+
+p { }
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+code {
+  font-family: var(--font-mono);
+  background: var(--color-code-bg);
+}
+
+pre {
+  /* Code block styles */
+}
+
+ul, ol {
+  /* List styles */
+}
+
+/* -----------------------------------------
+   4. LAYOUT
+   ----------------------------------------- */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+/* -----------------------------------------
+   5. HEADER & NAVIGATION
+   ----------------------------------------- */
+#site-header {
+  position: sticky;
+  top: 0;
+  height: var(--header-height);
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  z-index: 100;
+}
+
+.header-container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+#main-nav {
+  /* Navigation container */
+}
+
+#main-nav a {
+  /* Nav link styles */
+}
+
+#main-nav a:hover,
+#main-nav a.active {
+  /* Active/hover nav states */
+}
+
+#mobile-menu-toggle {
+  display: none; /* Show on mobile */
+}
+
+/* -----------------------------------------
+   6. MAIN CONTENT
+   ----------------------------------------- */
+#content {
+  flex: 1;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--spacing-lg) var(--spacing-md);
+  width: 100%;
+}
+
+#loading {
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+/* -----------------------------------------
+   7. PAGE-SPECIFIC STYLES
+   ----------------------------------------- */
+
+/* --- Home Page --- */
+.page-home {
+  /* Landing page specific styles */
+}
+
+.hero {
+  /* Hero section */
+}
+
+/* --- About Page --- */
+.page-about {
+  /* About page specific styles */
+}
+
+/* --- Projects Page --- */
+.page-projects {
+  /* Projects listing styles */
+}
+
+.project-grid {
+  /* Grid layout for project cards */
+}
+
+/* --- Single Project --- */
+.page-project {
+  /* Individual project page */
+}
+
+/* --- Publications Page --- */
+.page-publications {
+  /* Publications listing */
+}
+
+.publication-item {
+  /* Individual publication entry */
+}
+
+/* --- Blog Page --- */
+.page-blog {
+  /* Blog listing */
+}
+
+/* --- Single Blog Post --- */
+.page-post {
+  /* Individual blog post */
+}
+
+.post-meta {
+  /* Date, tags, reading time */
+}
+
+/* -----------------------------------------
+   8. COMPONENTS
+   ----------------------------------------- */
+
+/* --- Cards --- */
+.card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: var(--spacing-md);
+  transition: box-shadow var(--transition-normal);
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Tags --- */
+.tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--color-bg-alt);
+  border-radius: 4px;
+  color: var(--color-text-muted);
+}
+
+/* --- Buttons --- */
+.btn {
+  display: inline-block;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-hover);
+  color: white;
+}
+
+/* --- Links with icons --- */
+.icon-link {
+  /* Links with icons (GitHub, paper, etc.) */
+}
+
+/* -----------------------------------------
+   9. FOOTER
+   ----------------------------------------- */
+#site-footer {
+  border-top: 1px solid var(--color-border);
+  padding: var(--spacing-lg) 0;
+  margin-top: auto;
+}
+
+.footer-container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+  text-align: center;
+}
+
+.social-links {
+  /* Social icon links */
+}
+
+.social-links a {
+  /* Individual social link */
+}
+
+.copyright {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+/* -----------------------------------------
+   10. UTILITIES
+   ----------------------------------------- */
+.hidden {
+  display: none !important;
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-sm { margin-top: var(--spacing-sm); }
+.mt-md { margin-top: var(--spacing-md); }
+.mt-lg { margin-top: var(--spacing-lg); }
+
+.mb-sm { margin-bottom: var(--spacing-sm); }
+.mb-md { margin-bottom: var(--spacing-md); }
+.mb-lg { margin-bottom: var(--spacing-lg); }
+
+/* -----------------------------------------
+   11. RESPONSIVE / MEDIA QUERIES
+   ----------------------------------------- */
+@media (max-width: 768px) {
+  /* Tablet and below */
+  
+  #mobile-menu-toggle {
+    display: block;
+  }
+  
+  #main-nav {
+    /* Mobile nav styles (hidden by default, shown on toggle) */
+  }
+  
+  #main-nav.open {
+    /* Open mobile menu state */
+  }
+}
+
+@media (max-width: 480px) {
+  /* Mobile specific */
+  
+  :root {
+    --font-size-base: 15px;
+  }
+}
