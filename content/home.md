@@ -16,5 +16,5 @@ I'm passionate about bridging theoretical research with production-grade impleme
 
 `·.·` [`Read About Me`](#about) `·.·.·.·.·.·.·` \
 `·.·.·` [`View Projects`](#projects) `·.·.·.·.·.·` \
-`·.·.·.·` <a href="/assets/h-lotfalizadeh-postdoc-resume2.pdf" target="_blank">`Research Resume`</a> `·.·.·.·` \
-`·.·.·.·.·` <a href="/assets/h-lotfalizadeh-10genai.pdf" target="_blank">`Industry CV`</a> `·.·.·.·.·` 
+`·.·.·.·` <a href="/assets/h-lotfalizadeh-postdoc3.pdf" target="_blank">`Research Resume`</a> `·.·.·.·` \
+`·.·.·.·.·` <a href="/assets/h-lotfalizadeh-11genai.pdf" target="_blank">`Industry CV`</a> `·.·.·.·.·` 
