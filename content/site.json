@@ -5,11 +5,11 @@
   "email": "your.email@example.com",
   "location": "Bay Area, CA",
   "nav": [
-    { "label": "Home", "href": "#home" },
-    { "label": "About", "href": "#about" },
-    { "label": "Projects", "href": "#projects" },
-    { "label": "Publications", "href": "#publications" },
-    { "label": "Blog", "href": "#blog" }
+    { "label": "Home", "href": "home" },
+    { "label": "About", "href": "about" },
+    { "label": "Projects", "href": "projects" },
+    { "label": "Publications", "href": "publications" },
+    { "label": "Blog", "href": "blog" }
   ],
   "social": [
     { "platform": "github", "url": "https://github.com/hessamla", "icon": "github" },

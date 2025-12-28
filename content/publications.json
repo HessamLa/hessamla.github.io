@@ -4,29 +4,41 @@
   "items": [
     {
       "title": "Kinematic-Based Force-Directed Graph Embedding",
-      "authors": ["Hamidreza Lotfalizadeh", "Co-Author Name"],
-      "venue": "Conference/Journal Name",
+      "authors": "Hamidreza Lotfalizadeh, Mohammad Al Hasan",
+      "venue": "Complex Networks XV, CompleNet-Live 2024, Springer Proceedings in Complexity",
       "year": 2024,
-      "type": "conference",
-      "abstract": "A novel approach to graph embedding using physics-based force-directed methods with O(n log n) complexity.",
-      "links": {
-        "pdf": "#",
-        "code": "https://github.com/hessamla/",
-        "slides": "#"
-      }
+      "paper": "https://link.springer.com/chapter/10.1007/978-3-031-57515-0_11",
+      "description": "This paper discusses a proof-of-convergence for the Kinematics-Based Force-Directed Graph Embedding approach, using Brouwer's fixed-point theorem."
     },
     {
-      "title": "Your Earlier Paper Title",
-      "authors": ["Hamidreza Lotfalizadeh", "Other Authors"],
-      "venue": "Earlier Conference/Journal",
+      "title": "Force-directed graph embedding with hops distance",
+      "authors": "Hamidreza Lotfalizadeh, Mohammad Al Hasan",
+      "venue": "2023 IEEE International Conference on Big Data (BigData), pp. 2946-2953",
       "year": 2023,
-      "type": "journal",
-      "abstract": "Brief description of this work.",
-      "links": {
-        "pdf": "#",
-        "code": "#"
-      }
+      "paper": "https://arxiv.org/pdf/2309.05865",
+      "description": "This is the first work to discuss a force-directed framework for graph embedding. In this work, all node pairs enforce attractive and repulsive forces on each other in a d-dimensional space. Larger Euclidean distance between a node pair, increases the attractive force component and decreases the repulsive one. In addition, the hop distance effect the force components. A larger hop distance, increases the coefficient of the repulsive force component, while decreases the coefficient of the attractive one."
+    },
+    {
+      "title": "Reducing Complexity of Force-Directed Graph Embedding",
+      "authors": "Hamidreza Lotfalizadeh, Omar Yaqub, Mohammad Al Hasan",
+      "description": ""      
+    },
+    {
+      "title": "Investigating Real-Time Entropy Features of DDoS Attack Based on Categorized Partial-Flows",
+      "authors": "Hamidreza Lotfalizadeh, Dongsoo S. Kim",
+      "venue": "IMCOM 2020: The 14th International Conference on Innovative Mobile and Internet Services in Ubiquitous Computing",
+      "year": 2020,
+      "paper": "https://www.researchgate.net/profile/Hamidreza-Lotfalizadeh-2",
+      "description": ""
+    },
+    {
+      "title": "Toward network-based ddos detection in software-defined networks",
+      "authors": "Stefan Jevtic, Hamidreza Lotfalizadeh, Dongsoo S Kim",
+      "venue": "Proceedings of the 12th International Conference on Ubiquitous Information Management and Communication",
+      "year": 2018,
+      "paper": "https://dl.acm.org/doi/pdf/10.1145/3164541.3164562",
+      "description": ""
     }
-  ],
-  "note": "For a complete list, see my [Google Scholar](https://scholar.google.com/citations?user=YOUR_ID) profile."
+  ],  
+  "note": "For a complete list, see my [Google Scholar](https://scholar.google.com/citations?user=yPwMRpwAAAAJ&hl=en) profile."
 }

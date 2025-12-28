@@ -2,14 +2,14 @@
 title: Home
 ---
 
-# Hessam Lotfalizadeh
+# Hessam Alizadeh
 
 **ML Researcher & Engineer**
 
 I build scalable graph learning systems and develop novel algorithms for representation learning.
 
-Recently completed my **PhD in Computer Engineering at Purdue University**, specializing in Graph Neural Networks and distributed ML systems. Currently a Postdoctoral Researcher at Indiana University exploring diffusion models for dynamic graphs.
+Recently completed my **PhD in Computer Engineering at Purdue University**, specializing in Graph ML and distributed ML systems. Currently a Postdoctoral Researcher at Indiana University exploring diffusion models for dynamic graphs.
 
-I'm passionate about bridging theoretical research with production-grade implementations—from O(n²) → O(n log n) algorithmic improvements to enterprise systems handling millions of entities.
+I'm passionate about bridging theoretical research with production-grade implementations, algorithmic improvements, and scalable system design.
 
-[View Projects](#projects) · [Read About Me](#about) · [Download CV](assets/resume.pdf)
+[View Projects](#projects) ·.·.· [Read About Me](#about) ·.·.· <a href="/assets/h-lotfalizadeh-postdoc-resume2.pdf" target="_blank">View CV</a>

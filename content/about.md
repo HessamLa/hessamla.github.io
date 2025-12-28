@@ -46,4 +46,4 @@ Dissertation: Kinematic-Based Force-Directed Graph Embedding Approaches
 
 I'm currently exploring opportunities in ML, Data Science, and GenAI roles in the Bay Area.
 
-[Download my CV](assets/resume.pdf) · [Email me](mailto:your.email@example.com) · [LinkedIn](https://linkedin.com/in/YOUR_LINKEDIN)
+[Download my Resume](assets/h-lotfalizadeh-postdoc-resume2.pdf) · [Email me](mailto:hamidla.ap+githubio@gmail.com) · [LinkedIn](https://linkedin.com/in/hessamla)

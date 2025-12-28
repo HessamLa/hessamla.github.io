@@ -17,11 +17,11 @@
       "featured": true
     },
     {
-      "slug": "construction-knowledge-graph",
-      "title": "LLM-Powered Construction Knowledge Graphs",
-      "summary": "Automated conflict detection in construction documents using LLMs and KGs.",
-      "tags": ["LLM", "Knowledge Graphs", "Inertia Systems"],
-      "featured": true
+      "slug": "recursive-namespace",
+      "title": "RecursiveNamespace",
+      "summary": "Python package extending SimpleNamespace for intuitive nested data access with dot notation.",
+      "tags": ["Python", "Open Source", "PyPI", "Developer Tools"],
+      "featured": false
     }
   ]
 }
