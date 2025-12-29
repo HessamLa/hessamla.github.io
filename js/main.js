@@ -553,31 +553,31 @@ function populateHeaderSocial() {
  * Populate footer with social links
  */
 function populateFooter() {
-  const socialContainer = document.querySelector('.social-links');
-  socialContainer.innerHTML = '';
+  // const socialContainer = document.querySelector('.social-links');
+  // socialContainer.innerHTML = '';
 
-  // Icon mapping for common social platforms
-  const iconMap = {
-    github: 'fab fa-github',
-    twitter: 'fab fa-twitter',
-    linkedin: 'fab fa-linkedin',
-    email: 'fas fa-envelope',
-    scholar: 'fas fa-graduation-cap'
-  };
+  // // Icon mapping for common social platforms
+  // const iconMap = {
+  //   github: 'fab fa-github',
+  //   twitter: 'fab fa-twitter',
+  //   linkedin: 'fab fa-linkedin',
+  //   email: 'fas fa-envelope',
+  //   scholar: 'fas fa-graduation-cap'
+  // };
 
-  for (const item of siteData.social) {
-    const link = document.createElement('a');
-    link.href = resolveTemplateVars(item.url);
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    link.setAttribute('aria-label', item.label);
+  // for (const item of siteData.social) {
+  //   const link = document.createElement('a');
+  //   link.href = resolveTemplateVars(item.url);
+  //   link.target = '_blank';
+  //   link.rel = 'noopener noreferrer';
+  //   link.setAttribute('aria-label', item.label);
 
-    const icon = document.createElement('i');
-    icon.className = iconMap[item.platform] || 'fas fa-link';
-    link.appendChild(icon);
+  //   const icon = document.createElement('i');
+  //   icon.className = iconMap[item.platform] || 'fas fa-link';
+  //   link.appendChild(icon);
 
-    socialContainer.appendChild(link);
-  }
+  //   socialContainer.appendChild(link);
+  // }
 }
 
 /**
