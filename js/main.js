@@ -145,6 +145,7 @@ async function loadJSON(path) {
 async function loadSiteConfig() {
   siteData = await loadJSON(`${CONFIG.contentPath}/site.json`);
   populateNav();
+  populateHeaderSocial();
   populateFooter();
 }
 
@@ -513,6 +514,39 @@ function resolveTemplateVars(str) {
   return str.replace(/\{contact\.(\w+)\}/g, (match, key) => {
     return siteData.contact && siteData.contact[key] ? siteData.contact[key] : match;
   });
+}
+
+/**
+ * Populate header with social links
+ */
+function populateHeaderSocial() {
+  const socialContainer = document.querySelector('.header-social-links');
+  if (!socialContainer) return;
+
+  socialContainer.innerHTML = '';
+
+  // Icon mapping for common social platforms
+  const iconMap = {
+    github: 'fab fa-github',
+    twitter: 'fab fa-twitter',
+    linkedin: 'fab fa-linkedin',
+    email: 'fas fa-envelope',
+    scholar: 'fas fa-graduation-cap'
+  };
+
+  for (const item of siteData.social) {
+    const link = document.createElement('a');
+    link.href = resolveTemplateVars(item.url);
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.setAttribute('aria-label', item.label);
+
+    const icon = document.createElement('i');
+    icon.className = iconMap[item.platform] || 'fas fa-link';
+    link.appendChild(icon);
+
+    socialContainer.appendChild(link);
+  }
 }
 
 /**

@@ -63,7 +63,7 @@
 
   /* Layout */
   --max-width: 800px;
-  --header-height: 60px;
+  --header-height: 80px;
 
   /* Transitions */
   --transition-fast: 150ms ease;
@@ -206,6 +206,13 @@ strong {
   justify-content: space-between;
 }
 
+.logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.375rem;
+}
+
 .logo {
   font-family: var(--font-display);
   font-size: 1.125rem;
@@ -214,6 +221,22 @@ strong {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+.header-social-links {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.header-social-links a {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  transition: all var(--transition-fast);
+}
+
+.header-social-links a:hover {
+  color: var(--color-primary);
+  transform: translateY(-2px);
 }
 
 #main-nav {
@@ -683,8 +706,24 @@ strong {
 @media (max-width: 768px) {
   /* Tablet and below */
 
+  :root {
+    --header-height: 70px;
+  }
+
   #mobile-menu-toggle {
     display: flex;
+  }
+
+  .logo-section {
+    gap: 0.25rem;
+  }
+
+  .header-social-links {
+    gap: 0.625rem;
+  }
+
+  .header-social-links a {
+    font-size: 0.875rem;
   }
 
   #main-nav {
@@ -728,6 +767,7 @@ strong {
 
   :root {
     --font-size-base: 15px;
+    --header-height: 65px;
   }
 
   h1 {
@@ -736,6 +776,18 @@ strong {
 
   .hero h1 {
     font-size: 1.75rem;
+  }
+
+  .logo {
+    font-size: 1rem;
+  }
+
+  .header-social-links {
+    gap: 0.5rem;
+  }
+
+  .header-social-links a {
+    font-size: 0.8125rem;
   }
 
   .publication-item {
