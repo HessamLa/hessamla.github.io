@@ -14,7 +14,7 @@
     { "label": "About", "href": "about" },
     { "label": "Projects", "href": "projects" },
     { "label": "Publications", "href": "publications" },
-    { "label": "Blog", "href": "blog" }
+    { "label": "Blog", "path": "/blog/" }
   ],
   "social": [
     { "platform": "github", "url": "{contact.github}", "icon": "github", "label": "GitHub" },

@@ -481,7 +481,9 @@ function populateNav() {
 
   for (const item of siteData.nav) {
     const link = document.createElement('a');
-    link.href = `#${item.href}`;
+    // `path` points at a real URL (e.g. the Quarto blog at /blog/);
+    // `href` is an in-app hash route.
+    link.href = item.path || `#${item.href}`;
     link.textContent = item.label;
     nav.appendChild(link);
   }
