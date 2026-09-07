@@ -1,0 +1,55 @@
+---
+title: "Hello, Research Blog"
+date: 2026-09-07
+categories: [meta, graph-ml]
+description: "A proof-of-concept post: math, a citation, and an executable figure, all rendered by Quarto."
+---
+
+This is the first post on the research blog, and mostly a test of the toolchain: math via
+MathJax, citations via BibTeX, and an executable code cell producing a figure — the things
+this blog needs for writing up graph ML experiments.
+
+## Math
+
+A simple way to think about graph embedding is as a map $f: V \to \mathbb{R}^d$ from nodes
+to vectors that preserves structural similarity. One common training objective,
+following the skip-gram formulation used in @grover2016node2vec, is
+
+$$
+\mathcal{L} = -\sum_{u \in V} \sum_{v \in N(u)} \log \frac{\exp(f(u)^\top f(v))}{\sum_{w \in V} \exp(f(u)^\top f(w))}.
+$$
+
+Graph convolutional approaches such as @kipf2017semi instead learn embeddings by
+propagating and transforming neighbor features layer by layer:
+
+$$
+H^{(l+1)} = \sigma\left(\tilde{D}^{-\frac{1}{2}} \tilde{A} \tilde{D}^{-\frac{1}{2}} H^{(l)} W^{(l)}\right).
+$$
+
+## An executable figure
+
+A toy graph, laid out in 2D as a stand-in for a learned embedding:
+
+```{python}
+#| label: fig-toy-embedding
+#| fig-cap: "Spring layout of a small random graph, used here as a toy 2D embedding."
+import matplotlib.pyplot as plt
+import networkx as nx
+
+G = nx.karate_club_graph()
+pos = nx.spring_layout(G, seed=7)
+colors = ["#4C72B0" if G.nodes[n]["club"] == "Mr. Hi" else "#DD8452" for n in G.nodes]
+
+fig, ax = plt.subplots(figsize=(5, 5))
+nx.draw_networkx(G, pos, node_color=colors, edge_color="#cccccc", with_labels=False, node_size=120, ax=ax)
+ax.set_axis_off()
+plt.show()
+```
+
+Nodes cluster by club membership even without any learning — a reminder that a good
+layout algorithm and a good embedding model are solving related problems.
+
+## References
+
+::: {#refs}
+:::

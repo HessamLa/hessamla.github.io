@@ -1,0 +1,12 @@
+{
+  "hash": "c13503106a67d1ad1c118f237d911c94",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"Hello, Research Blog\"\ndate: 2026-09-07\ncategories: [meta, graph-ml]\ndescription: \"A proof-of-concept post: math, a citation, and an executable figure, all rendered by Quarto.\"\n---\n\nThis is the first post on the research blog, and mostly a test of the toolchain: math via\nMathJax, citations via BibTeX, and an executable code cell producing a figure — the things\nthis blog needs for writing up graph ML experiments.\n\n## Math\n\nA simple way to think about graph embedding is as a map $f: V \\to \\mathbb{R}^d$ from nodes\nto vectors that preserves structural similarity. One common training objective,\nfollowing the skip-gram formulation used in @grover2016node2vec, is\n\n$$\n\\mathcal{L} = -\\sum_{u \\in V} \\sum_{v \\in N(u)} \\log \\frac{\\exp(f(u)^\\top f(v))}{\\sum_{w \\in V} \\exp(f(u)^\\top f(w))}.\n$$\n\nGraph convolutional approaches such as @kipf2017semi instead learn embeddings by\npropagating and transforming neighbor features layer by layer:\n\n$$\nH^{(l+1)} = \\sigma\\left(\\tilde{D}^{-\\frac{1}{2}} \\tilde{A} \\tilde{D}^{-\\frac{1}{2}} H^{(l)} W^{(l)}\\right).\n$$\n\n## An executable figure\n\nA toy graph, laid out in 2D as a stand-in for a learned embedding:\n\n::: {#cell-fig-toy-embedding .cell execution_count=1}\n``` {.python .cell-code}\nimport matplotlib.pyplot as plt\nimport networkx as nx\n\nG = nx.karate_club_graph()\npos = nx.spring_layout(G, seed=7)\ncolors = [\"#4C72B0\" if G.nodes[n][\"club\"] == \"Mr. Hi\" else \"#DD8452\" for n in G.nodes]\n\nfig, ax = plt.subplots(figsize=(5, 5))\nnx.draw_networkx(G, pos, node_color=colors, edge_color=\"#cccccc\", with_labels=False, node_size=120, ax=ax)\nax.set_axis_off()\nplt.show()\n```\n\n::: {.cell-output .cell-output-display}\n![Spring layout of a small random graph, used here as a toy 2D embedding.](index_files/figure-html/fig-toy-embedding-output-1.png){#fig-toy-embedding width=391 height=389}\n:::\n:::\n\n\nNodes cluster by club membership even without any learning — a reminder that a good\nlayout algorithm and a good embedding model are solving related problems.\n\n## References\n\n::: {#refs}\n:::\n\n",
+    "supporting": [
+      "index_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

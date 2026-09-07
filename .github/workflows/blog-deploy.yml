@@ -1,0 +1,52 @@
+name: Deploy Quarto blog
+
+on:
+  push:
+    branches: [blog-source]
+    paths:
+      - "blog/**"
+      - ".github/workflows/blog-deploy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: blog-deploy
+  cancel-in-progress: true
+
+jobs:
+  render-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout blog-source
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python deps
+        run: pip install -r blog/requirements.txt
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: "1.10.18"
+
+      - name: Render blog
+        run: quarto render blog
+
+      # Publishes blog/_site into the `blog/` subdirectory of `main`, leaving
+      # the rest of `main` (the existing portfolio) untouched.
+      - name: Deploy to main:/blog/
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: blog/_site
+          publish_branch: main
+          destination_dir: blog
+          commit_message: "Deploy blog from ${{ github.sha }}"
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"
