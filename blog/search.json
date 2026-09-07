@@ -1,0 +1,37 @@
+[
+  {
+    "objectID": "posts/2026-09-07-welcome/index.html",
+    "href": "posts/2026-09-07-welcome/index.html",
+    "title": "Hello, Research Blog",
+    "section": "",
+    "text": "This is the first post on the research blog, and mostly a test of the toolchain: math via MathJax, citations via BibTeX, and an executable code cell producing a figure — the things this blog needs for writing up graph ML experiments."
+  },
+  {
+    "objectID": "posts/2026-09-07-welcome/index.html#math",
+    "href": "posts/2026-09-07-welcome/index.html#math",
+    "title": "Hello, Research Blog",
+    "section": "Math",
+    "text": "Math\nA simple way to think about graph embedding is as a map \\(f: V \\to \\mathbb{R}^d\\) from nodes to vectors that preserves structural similarity. One common training objective, following the skip-gram formulation used in Grover and Leskovec (2016), is\n\\[\n\\mathcal{L} = -\\sum_{u \\in V} \\sum_{v \\in N(u)} \\log \\frac{\\exp(f(u)^\\top f(v))}{\\sum_{w \\in V} \\exp(f(u)^\\top f(w))}.\n\\]\nGraph convolutional approaches such as Kipf and Welling (2017) instead learn embeddings by propagating and transforming neighbor features layer by layer:\n\\[\nH^{(l+1)} = \\sigma\\left(\\tilde{D}^{-\\frac{1}{2}} \\tilde{A} \\tilde{D}^{-\\frac{1}{2}} H^{(l)} W^{(l)}\\right).\n\\]"
+  },
+  {
+    "objectID": "posts/2026-09-07-welcome/index.html#an-executable-figure",
+    "href": "posts/2026-09-07-welcome/index.html#an-executable-figure",
+    "title": "Hello, Research Blog",
+    "section": "An executable figure",
+    "text": "An executable figure\nA toy graph, laid out in 2D as a stand-in for a learned embedding:\n\n\nCode\nimport matplotlib.pyplot as plt\nimport networkx as nx\n\nG = nx.karate_club_graph()\npos = nx.spring_layout(G, seed=7)\ncolors = [\"#4C72B0\" if G.nodes[n][\"club\"] == \"Mr. Hi\" else \"#DD8452\" for n in G.nodes]\n\nfig, ax = plt.subplots(figsize=(5, 5))\nnx.draw_networkx(G, pos, node_color=colors, edge_color=\"#cccccc\", with_labels=False, node_size=120, ax=ax)\nax.set_axis_off()\nplt.show()\n\n\n\n\n\n\n\n\nFigure 1: Spring layout of a small random graph, used here as a toy 2D embedding.\n\n\n\n\n\nNodes cluster by club membership even without any learning — a reminder that a good layout algorithm and a good embedding model are solving related problems."
+  },
+  {
+    "objectID": "posts/2026-09-07-welcome/index.html#references",
+    "href": "posts/2026-09-07-welcome/index.html#references",
+    "title": "Hello, Research Blog",
+    "section": "References",
+    "text": "References\n\n\nGrover, Aditya, and Jure Leskovec. 2016. “Node2vec: Scalable Feature Learning for Networks.” Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining, 855–64.\n\n\nKipf, Thomas N., and Max Welling. 2017. “Semi-Supervised Classification with Graph Convolutional Networks.” International Conference on Learning Representations (ICLR)."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Research Notes",
+    "section": "",
+    "text": "Hello, Research Blog\n\n\n\nmeta\n\ngraph-ml\n\n\n\nA proof-of-concept post: math, a citation, and an executable figure, all rendered by Quarto.\n\n\n\n\n\nSep 7, 2026\n\n\n\n\n\nNo matching items"
+  }
+]

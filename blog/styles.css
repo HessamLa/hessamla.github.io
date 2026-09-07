@@ -1,0 +1,4 @@
+/* Minimal overrides on top of the Quarto "cosmo" theme */
+body {
+  max-width: 860px;
+}
