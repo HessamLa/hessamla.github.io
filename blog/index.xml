@@ -10,143 +10,10 @@
 <atom:link href="https://hessamla.github.io/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description>Notes on graph ML, distributed systems, and scalable ML — Hessam Alizadeh.</description>
 <generator>quarto-1.10.18</generator>
-<lastBuildDate>Mon, 07 Sep 2026 00:00:00 GMT</lastBuildDate>
-<item>
-  <title>Hello, Research Blog</title>
-  <link>https://hessamla.github.io/blog/posts/2026-09-07-welcome/</link>
-  <description><![CDATA[ 
-
-
-
-
-<p>This is the first post on the research blog, and mostly a test of the toolchain: math via MathJax, citations via BibTeX, and an executable code cell producing a figure — the things this blog needs for writing up graph ML experiments.</p>
-<section id="math" class="level2">
-<h2 class="anchored" data-anchor-id="math">Math</h2>
-<p>A simple way to think about graph embedding is as a map <img src="https://latex.codecogs.com/png.latex?f:%20V%20%5Cto%20%5Cmathbb%7BR%7D%5Ed"> from nodes to vectors that preserves structural similarity. One common training objective, following the skip-gram formulation used in <span class="citation" data-cites="grover2016node2vec">Grover and Leskovec (2016)</span>, is</p>
-<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cmathcal%7BL%7D%20=%20-%5Csum_%7Bu%20%5Cin%20V%7D%20%5Csum_%7Bv%20%5Cin%20N(u)%7D%20%5Clog%20%5Cfrac%7B%5Cexp(f(u)%5E%5Ctop%20f(v))%7D%7B%5Csum_%7Bw%20%5Cin%20V%7D%20%5Cexp(f(u)%5E%5Ctop%20f(w))%7D.%0A"></p>
-<p>Graph convolutional approaches such as <span class="citation" data-cites="kipf2017semi">Kipf and Welling (2017)</span> instead learn embeddings by propagating and transforming neighbor features layer by layer:</p>
-<p><img src="https://latex.codecogs.com/png.latex?%0AH%5E%7B(l+1)%7D%20=%20%5Csigma%5Cleft(%5Ctilde%7BD%7D%5E%7B-%5Cfrac%7B1%7D%7B2%7D%7D%20%5Ctilde%7BA%7D%20%5Ctilde%7BD%7D%5E%7B-%5Cfrac%7B1%7D%7B2%7D%7D%20H%5E%7B(l)%7D%20W%5E%7B(l)%7D%5Cright).%0A"></p>
-</section>
-<section id="an-executable-figure" class="level2">
-<h2 class="anchored" data-anchor-id="an-executable-figure">An executable figure</h2>
-<p>A toy graph, laid out in 2D as a stand-in for a learned embedding:</p>
-<div id="cell-fig-toy-embedding" class="cell" data-execution_count="1">
-<details open="" class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> matplotlib.pyplot <span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">as</span> plt</span>
-<span id="cb1-2"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> networkx <span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">as</span> nx</span>
-<span id="cb1-3"></span>
-<span id="cb1-4">G <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> nx.karate_club_graph()</span>
-<span id="cb1-5">pos <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> nx.spring_layout(G, seed<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">7</span>)</span>
-<span id="cb1-6">colors <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> [<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"#4C72B0"</span> <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">if</span> G.nodes[n][<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"club"</span>] <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">==</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Mr. Hi"</span> <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">else</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"#DD8452"</span> <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">for</span> n <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">in</span> G.nodes]</span>
-<span id="cb1-7"></span>
-<span id="cb1-8">fig, ax <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> plt.subplots(figsize<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">5</span>, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">5</span>))</span>
-<span id="cb1-9">nx.draw_networkx(G, pos, node_color<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>colors, edge_color<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"#cccccc"</span>, with_labels<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">False</span>, node_size<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">120</span>, ax<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>ax)</span>
-<span id="cb1-10">ax.set_axis_off()</span>
-<span id="cb1-11">plt.show()</span></code></pre></div></div>
-</details>
-<div class="cell-output cell-output-display">
-<div id="fig-toy-embedding" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-toy-embedding-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="https://hessamla.github.io/blog/posts/2026-09-07-welcome/index_files/figure-html/fig-toy-embedding-output-1.png" width="391" height="389" class="figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-toy-embedding-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Spring layout of a small random graph, used here as a toy 2D embedding.
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<p>Nodes cluster by club membership even without any learning — a reminder that a good layout algorithm and a good embedding model are solving related problems.</p>
-</section>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-grover2016node2vec" class="csl-entry">
-Grover, Aditya, and Jure Leskovec. 2016. <span>“Node2vec: Scalable Feature Learning for Networks.”</span> <em>Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</em>, 855–64.
-</div>
-<div id="ref-kipf2017semi" class="csl-entry">
-Kipf, Thomas N., and Max Welling. 2017. <span>“Semi-Supervised Classification with Graph Convolutional Networks.”</span> <em>International Conference on Learning Representations (ICLR)</em>.
-</div>
-</div>
-
-
-</section>
-
- ]]></description>
-  <category>meta</category>
-  <category>graph-ml</category>
-  <guid>https://hessamla.github.io/blog/posts/2026-09-07-welcome/</guid>
-  <pubDate>Mon, 07 Sep 2026 00:00:00 GMT</pubDate>
-</item>
+<lastBuildDate>Tue, 08 Sep 2026 00:00:00 GMT</lastBuildDate>
 <item>
   <title>Neighbor Explosion, Measured</title>
-  <link>https://hessamla.github.io/blog/posts/2026-09-07-neighbor-explosion/</link>
+  <link>https://hessamla.github.io/blog/posts/2026-09-08-neighbor-explosion/</link>
   <description><![CDATA[ 
 
 
@@ -370,7 +237,7 @@ font-style: inherit;">False</span>)</span>
 <div id="fig-neighbor-explosion" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-neighbor-explosion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="https://hessamla.github.io/blog/posts/2026-09-07-neighbor-explosion/index_files/figure-html/fig-neighbor-explosion-output-1.png" width="517" height="358" class="figure-img">
+<img src="https://hessamla.github.io/blog/posts/2026-09-08-neighbor-explosion/index_files/figure-html/fig-neighbor-explosion-output-1.png" width="517" height="358" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-neighbor-explosion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Mean L-hop receptive field per seed node, measured by BFS on a 20,000-node preferential-attachment graph, against a fan-out-10 sampling bound.
@@ -379,7 +246,7 @@ Figure&nbsp;1: Mean L-hop receptive field per seed node, measured by BFS on a 20
 </div>
 </div>
 </div>
-<div id="97a7001d" class="cell" data-execution_count="2">
+<div id="b866cbc3" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-stdout">
 <pre><code>At L=4, the average seed node reaches 9,248 nodes — 46% of the graph.</code></pre>
 </div>
@@ -500,7 +367,140 @@ Kipf, Thomas N., and Max Welling. 2017. <span>“Semi-Supervised Classification 
  ]]></description>
   <category>graph-ml</category>
   <category>scalability</category>
-  <guid>https://hessamla.github.io/blog/posts/2026-09-07-neighbor-explosion/</guid>
+  <guid>https://hessamla.github.io/blog/posts/2026-09-08-neighbor-explosion/</guid>
+  <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Hello, Research Blog</title>
+  <link>https://hessamla.github.io/blog/posts/2026-09-07-welcome/</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>This is the first post on the research blog, and mostly a test of the toolchain: math via MathJax, citations via BibTeX, and an executable code cell producing a figure — the things this blog needs for writing up graph ML experiments.</p>
+<section id="math" class="level2">
+<h2 class="anchored" data-anchor-id="math">Math</h2>
+<p>A simple way to think about graph embedding is as a map <img src="https://latex.codecogs.com/png.latex?f:%20V%20%5Cto%20%5Cmathbb%7BR%7D%5Ed"> from nodes to vectors that preserves structural similarity. One common training objective, following the skip-gram formulation used in <span class="citation" data-cites="grover2016node2vec">Grover and Leskovec (2016)</span>, is</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cmathcal%7BL%7D%20=%20-%5Csum_%7Bu%20%5Cin%20V%7D%20%5Csum_%7Bv%20%5Cin%20N(u)%7D%20%5Clog%20%5Cfrac%7B%5Cexp(f(u)%5E%5Ctop%20f(v))%7D%7B%5Csum_%7Bw%20%5Cin%20V%7D%20%5Cexp(f(u)%5E%5Ctop%20f(w))%7D.%0A"></p>
+<p>Graph convolutional approaches such as <span class="citation" data-cites="kipf2017semi">Kipf and Welling (2017)</span> instead learn embeddings by propagating and transforming neighbor features layer by layer:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0AH%5E%7B(l+1)%7D%20=%20%5Csigma%5Cleft(%5Ctilde%7BD%7D%5E%7B-%5Cfrac%7B1%7D%7B2%7D%7D%20%5Ctilde%7BA%7D%20%5Ctilde%7BD%7D%5E%7B-%5Cfrac%7B1%7D%7B2%7D%7D%20H%5E%7B(l)%7D%20W%5E%7B(l)%7D%5Cright).%0A"></p>
+</section>
+<section id="an-executable-figure" class="level2">
+<h2 class="anchored" data-anchor-id="an-executable-figure">An executable figure</h2>
+<p>A toy graph, laid out in 2D as a stand-in for a learned embedding:</p>
+<div id="cell-fig-toy-embedding" class="cell" data-execution_count="1">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> matplotlib.pyplot <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> plt</span>
+<span id="cb1-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> networkx <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> nx</span>
+<span id="cb1-3"></span>
+<span id="cb1-4">G <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> nx.karate_club_graph()</span>
+<span id="cb1-5">pos <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> nx.spring_layout(G, seed<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">7</span>)</span>
+<span id="cb1-6">colors <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#4C72B0"</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> G.nodes[n][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"club"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Mr. Hi"</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#DD8452"</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> n <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> G.nodes]</span>
+<span id="cb1-7"></span>
+<span id="cb1-8">fig, ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> plt.subplots(figsize<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>))</span>
+<span id="cb1-9">nx.draw_networkx(G, pos, node_color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>colors, edge_color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#cccccc"</span>, with_labels<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>, node_size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">120</span>, ax<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>ax)</span>
+<span id="cb1-10">ax.set_axis_off()</span>
+<span id="cb1-11">plt.show()</span></code></pre></div></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-toy-embedding" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-toy-embedding-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://hessamla.github.io/blog/posts/2026-09-07-welcome/index_files/figure-html/fig-toy-embedding-output-1.png" width="391" height="389" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-toy-embedding-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Spring layout of a small random graph, used here as a toy 2D embedding.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Nodes cluster by club membership even without any learning — a reminder that a good layout algorithm and a good embedding model are solving related problems.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-grover2016node2vec" class="csl-entry">
+Grover, Aditya, and Jure Leskovec. 2016. <span>“Node2vec: Scalable Feature Learning for Networks.”</span> <em>Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</em>, 855–64.
+</div>
+<div id="ref-kipf2017semi" class="csl-entry">
+Kipf, Thomas N., and Max Welling. 2017. <span>“Semi-Supervised Classification with Graph Convolutional Networks.”</span> <em>International Conference on Learning Representations (ICLR)</em>.
+</div>
+</div>
+
+
+</section>
+
+ ]]></description>
+  <category>meta</category>
+  <category>graph-ml</category>
+  <guid>https://hessamla.github.io/blog/posts/2026-09-07-welcome/</guid>
   <pubDate>Mon, 07 Sep 2026 00:00:00 GMT</pubDate>
 </item>
 </channel>
