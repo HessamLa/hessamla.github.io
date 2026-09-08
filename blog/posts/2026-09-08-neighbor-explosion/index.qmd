@@ -1,6 +1,6 @@
 ---
 title: "Neighbor Explosion, Measured"
-date: 2026-09-07
+date: 2026-09-08
 categories: [graph-ml, scalability]
 description: "Why a mini-batch of 1,000 nodes can pull in most of the graph, and what fan-out sampling actually buys you."
 ---
