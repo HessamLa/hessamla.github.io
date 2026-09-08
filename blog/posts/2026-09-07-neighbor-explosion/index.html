@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2026-09-07">
+<meta name="description" content="Why a mini-batch of 1,000 nodes can pull in most of the graph, and what fan-out sampling actually buys you.">
 
-<title>Research Notes</title>
+<title>Neighbor Explosion, Measured – Research Notes</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,28 +28,80 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-3e9b1289f5f353c49b617ce48ad2bc38.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-3e9b1289f5f353c49b617ce48ad2bc38.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -75,35 +129,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
@@ -135,8 +160,8 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="styles.css">
-<link rel="alternate" type="application/rss+xml" title="Research Notes" href="index.xml" data-external="1"></head>
+<link rel="stylesheet" href="../../styles.css">
+</head>
 
 <body class="nav-fixed quarto-light">
 
@@ -145,7 +170,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Research Notes</span>
     </a>
   </div>
@@ -162,7 +187,7 @@ window.Quarto = {
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="./index.xml"> <i class="bi bi-rss" role="img" aria-label="RSS feed">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img" aria-label="RSS feed">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -174,25 +199,49 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Z3JhcGgtbWw=">graph-ml <span class="quarto-category-count">(2)</span></div><div class="category" data-category="bWV0YQ==">meta <span class="quarto-category-count">(1)</span></div><div class="category" data-category="c2NhbGFiaWxpdHk=">scalability <span class="quarto-category-count">(1)</span></div></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-growth-term" id="toc-the-growth-term" class="nav-link active" data-scroll-target="#the-growth-term">The growth term</a></li>
+  <li><a href="#measuring-it" id="toc-measuring-it" class="nav-link" data-scroll-target="#measuring-it">Measuring it</a></li>
+  <li><a href="#from-one-node-to-a-batch" id="toc-from-one-node-to-a-batch" class="nav-link" data-scroll-target="#from-one-node-to-a-batch">From one node to a batch</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Research Notes</h1>
+<h1 class="title">Neighbor Explosion, Measured</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">graph-ml</div>
+    <div class="quarto-category">scalability</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Why a mini-batch of 1,000 nodes can pull in most of the graph, and what fan-out sampling actually buys you.
+  </div>
 </div>
 
 
-
-<div class="quarto-title-meta column-page-left">
+<div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 7, 2026</p>
+    </div>
+  </div>
   
     
   </div>
@@ -202,73 +251,114 @@ window.Quarto = {
 </header>
 
 
-
-
-
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="bWV0YSUyQ2dyYXBoLW1s" data-listing-date-sort="1788739200000" data-listing-file-modified-sort="1788838706327" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="202">
-<div class="thumbnail"><a href="./posts/2026-09-07-welcome/index.html" class="no-external">
-
-<p class="card-img-top"><img loading='lazy' src="posts/2026-09-07-welcome/index_files/figure-html/fig-toy-embedding-output-1.png"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2026-09-07-welcome/index.html" class="no-external">Hello, Research Blog</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('bWV0YQ=='); return false;">meta</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('Z3JhcGgtbWw='); return false;">graph-ml</div>
-
+<p>The awkward thing about mini-batch training for GNNs is that a mini-batch isn’t self-contained. To compute one node’s representation at layer <span class="math inline">\(L\)</span>, you need its neighbors’ representations at layer <span class="math inline">\(L-1\)</span>, which need <em>their</em> neighbors at <span class="math inline">\(L-2\)</span>, and so on. The batch quietly drags in an <span class="math inline">\(L\)</span>-hop neighborhood.</p>
+<section id="the-growth-term" class="level2">
+<h2 class="anchored" data-anchor-id="the-growth-term">The growth term</h2>
+<p>For a graph with average degree <span class="math inline">\(d\)</span>, the expected size of a node’s <span class="math inline">\(L\)</span>-hop neighborhood, ignoring overlap, is</p>
+<p><span class="math display">\[
+|\mathcal{N}_L(v)| \;\approx\; \sum_{l=1}^{L} d^{\,l} \;=\; \frac{d^{\,L+1} - d}{d - 1},
+\]</span></p>
+<p>which is exponential in depth. Overlap makes the real number smaller — but on graphs with small diameter, the thing that eventually bounds it is <span class="math inline">\(N\)</span> itself, the whole graph. That’s the failure mode: at some depth, “the neighborhood” and “the dataset” stop being different things.</p>
+<p>Neighbor sampling <span class="citation" data-cites="hamilton2017inductive">(<a href="#ref-hamilton2017inductive" role="doc-biblioref">Hamilton et al. 2017</a>)</span> caps the branching instead of the result. Sampling at most <span class="math inline">\(r_l\)</span> neighbors at layer <span class="math inline">\(l\)</span> bounds the receptive field by <span class="math inline">\(\prod_{l=1}^{L} r_l\)</span>, independent of the graph’s actual degree distribution. It’s a bound you choose rather than one the data hands you.</p>
+</section>
+<section id="measuring-it" class="level2">
+<h2 class="anchored" data-anchor-id="measuring-it">Measuring it</h2>
+<p>Rather than trust the closed form, here’s the real count on a scale-free synthetic graph — 20,000 nodes, preferential attachment, so the degree distribution is heavy-tailed the way real networks tend to be. BFS from a sample of seed nodes, counting distinct nodes reached within <span class="math inline">\(L\)</span> hops:</p>
+<div id="cell-fig-neighbor-explosion" class="cell" data-execution_count="1">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">0</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>G <span class="op">=</span> nx.barabasi_albert_graph(<span class="dv">20_000</span>, <span class="dv">3</span>, seed<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> G.number_of_nodes()</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>seeds <span class="op">=</span> rng.choice(N, size<span class="op">=</span><span class="dv">200</span>, replace<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>depths <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>]</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Mean distinct nodes reached within L hops.</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>measured <span class="op">=</span> []</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> L <span class="kw">in</span> depths:</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    sizes <span class="op">=</span> [<span class="bu">len</span>(nx.single_source_shortest_path_length(G, <span class="bu">int</span>(s), cutoff<span class="op">=</span>L))</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>             <span class="cf">for</span> s <span class="kw">in</span> seeds]</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    measured.append(np.mean(sizes))</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>fanout <span class="op">=</span> [<span class="bu">min</span>(<span class="dv">10</span> <span class="op">**</span> L, N) <span class="cf">for</span> L <span class="kw">in</span> depths]</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>ax.plot(depths, measured, <span class="st">"o-"</span>, color<span class="op">=</span><span class="st">"#4C72B0"</span>, label<span class="op">=</span><span class="st">"full neighborhood (measured)"</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>ax.plot(depths, fanout, <span class="st">"s--"</span>, color<span class="op">=</span><span class="st">"#DD8452"</span>, label<span class="op">=</span><span class="st">"fan-out 10 per layer (bound)"</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>ax.axhline(N, color<span class="op">=</span><span class="st">"#888"</span>, ls<span class="op">=</span><span class="st">":"</span>, lw<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="fl">1.05</span>, N <span class="op">*</span> <span class="fl">0.72</span>, <span class="ss">f"entire graph (N=</span><span class="sc">{</span>N<span class="sc">:,}</span><span class="ss">)"</span>, fontsize<span class="op">=</span><span class="dv">8</span>, color<span class="op">=</span><span class="st">"#666"</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>ax.set_yscale(<span class="st">"log"</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>ax.set_xticks(depths)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"GNN depth $L$ (hops)"</span>)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"nodes in receptive field (log scale)"</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>ax.legend(frameon<span class="op">=</span><span class="va">False</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>ax.spines[[<span class="st">"top"</span>, <span class="st">"right"</span>]].set_visible(<span class="va">False</span>)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-neighbor-explosion" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-neighbor-explosion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-neighbor-explosion-output-1.png" width="517" height="358" class="figure-img">
 </div>
-<div class="delink listing-description"><a href="./posts/2026-09-07-welcome/index.html" class="no-external">
-<p>A proof-of-concept post: math, a citation, and an executable figure, all rendered by Quarto.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/2026-09-07-welcome/index.html" class="no-external">
-<div class="listing-date">
-Sep 7, 2026
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="Z3JhcGgtbWwlMkNzY2FsYWJpbGl0eQ==" data-listing-date-sort="1788739200000" data-listing-file-modified-sort="1788838706327" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="646">
-<div class="thumbnail"><a href="./posts/2026-09-07-neighbor-explosion/index.html" class="no-external">
-
-<p class="card-img-top"><img loading='lazy' src="posts/2026-09-07-neighbor-explosion/index_files/figure-html/fig-neighbor-explosion-output-1.png"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2026-09-07-neighbor-explosion/index.html" class="no-external">Neighbor Explosion, Measured</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('Z3JhcGgtbWw='); return false;">graph-ml</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('c2NhbGFiaWxpdHk='); return false;">scalability</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/2026-09-07-neighbor-explosion/index.html" class="no-external">
-<p>Why a mini-batch of 1,000 nodes can pull in most of the graph, and what fan-out sampling actually buys you.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/2026-09-07-neighbor-explosion/index.html" class="no-external">
-<div class="listing-date">
-Sep 7, 2026
-</div>
-</a>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-neighbor-explosion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Mean L-hop receptive field per seed node, measured by BFS on a 20,000-node preferential-attachment graph, against a fan-out-10 sampling bound.
+</figcaption>
+</figure>
 </div>
 </div>
 </div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div></main> <!-- /main -->
+<div id="97a7001d" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-stdout">
+<pre><code>At L=4, the average seed node reaches 9,248 nodes — 46% of the graph.</code></pre>
+</div>
+</div>
+<p>Four layers, from a <em>single</em> seed, reaches nearly half the graph. This is why depth is expensive for GNNs in a way it isn’t for CNNs: an extra layer multiplies data movement rather than adding a fixed cost.</p>
+<p>The sampling bound is more interesting than it first looks. At <span class="math inline">\(L=1\)</span> it sits <em>above</em> the measured curve — mean degree here is about 7, so capping at 10 does nothing. It dips usefully below at <span class="math inline">\(L=2\)</span> and <span class="math inline">\(L=3\)</span>. Then it crosses back above at <span class="math inline">\(L=4\)</span>, where <span class="math inline">\(10^4\)</span> exceeds the ~9.2k nodes you would have reached anyway. A constant fan-out stops paying exactly when the true neighborhood begins saturating toward <span class="math inline">\(N\)</span>, which is why fan-out is usually tapered with depth in practice (<code>[25, 10]</code> and friends) rather than held flat.</p>
+</section>
+<section id="from-one-node-to-a-batch" class="level2">
+<h2 class="anchored" data-anchor-id="from-one-node-to-a-batch">From one node to a batch</h2>
+<p>The numbers above are per seed. A real mini-batch is a union of them, and unions on a small-diameter graph overlap hard:</p>
+<div id="batch-union" class="cell" data-execution_count="3">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">1</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>batch <span class="op">=</span> rng.choice(N, size<span class="op">=</span><span class="dv">1000</span>, replace<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> L <span class="kw">in</span> [<span class="dv">2</span>, <span class="dv">3</span>]:</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    reached <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> s <span class="kw">in</span> batch:</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        reached <span class="op">|=</span> <span class="bu">set</span>(nx.single_source_shortest_path_length(G, <span class="bu">int</span>(s), cutoff<span class="op">=</span>L))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"batch of 1,000 seeds, L=</span><span class="sc">{</span>L<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span><span class="bu">len</span>(reached)<span class="sc">:,}</span><span class="ss"> nodes "</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f"(</span><span class="sc">{</span><span class="bu">len</span>(reached)<span class="op">/</span>N<span class="sc">:.0%}</span><span class="ss"> of the graph)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>batch of 1,000 seeds, L=2: 18,029 nodes (90% of the graph)
+batch of 1,000 seeds, L=3: 19,999 nodes (100% of the graph)</code></pre>
+</div>
+</div>
+<p>A 2-layer GNN on a batch of 1,000 nodes — 5% of this graph — already touches 90% of it. At three layers it’s the entire graph. The batch size stopped controlling the working set some time ago.</p>
+<p>The practical read: for deep GNNs the interesting question usually isn’t the model, it’s what you’re willing to <em>not</em> look at — sampling, historical embeddings, or partitioning the graph and eating the cut edges. Full-batch propagation <span class="citation" data-cites="kipf2017semi">(<a href="#ref-kipf2017semi" role="doc-biblioref">Kipf and Welling 2017</a>)</span> is fine right up until the receptive field stops fitting, and then it isn’t.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-hamilton2017inductive" class="csl-entry" role="listitem">
+Hamilton, William L., Rex Ying, and Jure Leskovec. 2017. <span>“Inductive Representation Learning on Large Graphs.”</span> <em>Advances in Neural Information Processing Systems (NeurIPS)</em>.
+</div>
+<div id="ref-kipf2017semi" class="csl-entry" role="listitem">
+Kipf, Thomas N., and Max Welling. 2017. <span>“Semi-Supervised Classification with Graph Convolutional Networks.”</span> <em>International Conference on Learning Representations (ICLR)</em>.
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

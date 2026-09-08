@@ -1,4 +1,4 @@
-/* Minimal overrides on top of the Quarto "cosmo" theme */
-body {
-  max-width: 860px;
-}
+/* Minimal overrides on top of the Quarto "cosmo" theme.
+   Note: don't constrain `body` width — Quarto lays the page out with
+   body as a flex container, so capping it squeezes the content column
+   and the margin TOC into the left half of the viewport. */
